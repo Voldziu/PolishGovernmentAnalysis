@@ -1,0 +1,28 @@
+[project]
+name = "PolishParliamentAnalysis"
+version = "0.1.0"
+description = "Analysis of votings from the Sejm of the Republic of Poland"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "aiohttp>=3.13.5",
+    "ipykernel>=7.2.0",
+    "networkx>=3.6.1",
+    "pandas>=3.0.2",
+    "pyarrow>=23.0.1",
+    "pydantic>=2.13.2",
+]
+
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/utils", "src/scrapper"]
+
+[dependency-groups]
+dev = [
+    "mypy>=1.20.1",
+    "ruff>=0.15.11",
+]
