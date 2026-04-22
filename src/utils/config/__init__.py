@@ -1,3 +1,4 @@
+from .clubs import CLUBS_ORDERED, DEFAULT_CLUB_COLORS, DEFAULT_FALLBACK_COLOR
 from .constants import (
     BASE_URL,
     CONCURRENCY,
@@ -18,4 +19,7 @@ __all__ = [
     "REQUEST_TIMEOUT",
     "OUT_DIR",
     "PARQUET_COMPRESSION",
+    "CLUBS_ORDERED",
+    "DEFAULT_CLUB_COLORS",
+    "DEFAULT_FALLBACK_COLOR",
 ]
