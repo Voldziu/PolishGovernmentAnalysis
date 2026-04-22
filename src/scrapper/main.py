@@ -10,8 +10,6 @@ from utils.logger import get_logger
 
 logger = get_logger(__name__)
 
-TEST = True
-
 
 async def fetch_data() -> None:
     sem = asyncio.Semaphore(CONCURRENCY)
@@ -27,10 +25,6 @@ async def fetch_data() -> None:
         # 2. Proceedings
         proceedings = await fetch_proceedings(session, sem)
         sitting_numbers = [p.sitting for p in proceedings]
-
-        if TEST:
-            sitting_numbers = sitting_numbers[:5]
-            logger.info("TEST MODE: Only fetching sittings %s", sitting_numbers)
 
         # 3. All sittings concurrently (bounded by semaphore)
         tasks = [fetch_sitting(session, sem, s) for s in sitting_numbers]
