@@ -103,7 +103,10 @@ def compute_club_layout(
     for node in graph.nodes():
         club = node_clubs[node]
         base_angle = known_angle.get(club, unknown_angle.get(club, 1.5 * np.pi))
+
         angle = base_angle + rng.uniform(-jitter, jitter)
-        pos[node] = (float(np.cos(angle)), float(np.sin(angle)))
+        radius = rng.uniform(0.85, 1.15)
+
+        pos[node] = (float(radius * np.cos(angle)), float(radius * np.sin(angle)))
 
     return pos

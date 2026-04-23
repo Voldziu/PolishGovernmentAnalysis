@@ -74,15 +74,15 @@ def _filter_graph_by_threshold(
         Thresholded graph with node attributes copied from source graph.
     """
     lower_threshold, upper_threshold = threshold_window
-    filtered_graph = nx.Graph(
+
+    valid_edges = [
         (u, v, d)
         for u, v, d in source_graph.edges(data=True)
         if lower_threshold <= d.get("weight", 0.0) <= upper_threshold
-    )
+    ]
 
-    for node in list(filtered_graph.nodes()):
-        if node in source_graph.nodes:
-            nx.set_node_attributes(filtered_graph, {node: source_graph.nodes[node]})
+    filtered_graph = nx.create_empty_copy(source_graph)
+    filtered_graph.add_edges_from(valid_edges)
 
     return filtered_graph
 
