@@ -31,13 +31,8 @@ def parse_args() -> argparse.Namespace:
         help="Output parquet path with low-confidence rows.",
     )
     parser.add_argument(
-        "--use-llm",
-        action="store_true",
-        help="Use local Ollama model for ambiguous rows.",
-    )
-    parser.add_argument(
         "--model",
-        default="qwen2.5:3b-instruct",
+        default="SpeakLeash/bielik-11b-v2.2-instruct:Q4_K_M",
         help="Ollama model name.",
     )
     parser.add_argument(
@@ -58,6 +53,30 @@ def parse_args() -> argparse.Namespace:
         help="Rows below confidence threshold are exported for manual review.",
     )
     parser.add_argument(
+        "--workers",
+        type=int,
+        default=4,
+        help="Number of concurrent classification workers.",
+    )
+    parser.add_argument(
+        "--batch-size",
+        type=int,
+        default=128,
+        help="Number of rows submitted to workers at once.",
+    )
+    parser.add_argument(
+        "--progress-every",
+        type=int,
+        default=50,
+        help="Log progress and ETA every N processed rows.",
+    )
+    parser.add_argument(
+        "--skip-compatibility-above",
+        type=float,
+        default=0.9,
+        help="Skip votings where max(yes, no) / totalVoted is above this threshold.",
+    )
+    parser.add_argument(
         "--limit",
         type=int,
         default=None,
@@ -72,12 +91,15 @@ def main() -> None:
         input_path=args.input,
         output_path=args.output,
         review_output_path=args.review_output,
-        use_llm=args.use_llm,
         model=args.model,
         ollama_url=args.ollama_url,
         temperature=args.temperature,
         review_threshold=args.review_threshold,
         limit=args.limit,
+        workers=args.workers,
+        batch_size=args.batch_size,
+        progress_every=args.progress_every,
+        skip_compatibility_above=args.skip_compatibility_above,
     )
 
 
